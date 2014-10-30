@@ -1,0 +1,19 @@
+## 
+## @author		Dennis Rogers
+## @address		www.drogers.net
+## 
+
+## Auth
+AuthType Basic
+AuthName "Quit lookin' at me, swan!"
+AuthUserFile /var/www/development/cmx/.htpasswd
+Require valid-user
+Order deny,allow
+Deny from all
+Allow from 67.236.213.134
+Satisfy any
+
+## PHP includes
+php_value include_path "/var/www/development/cmx/"
+php_value auto_prepend_file includes/header.php
+php_value auto_append_file includes/footer.php

@@ -1,0 +1,46 @@
+/**
+ * @author		Dennis Rogers
+ * @address		www.drogers.net
+ */
+
+body {
+    background-color:#555;
+}
+.cmx-image {
+    margin:20px;
+	background-size: contain;
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+.ui-footer {
+	background: none;
+	border: none;
+}        
+.control.ui-btn-right {
+	top: auto;
+	bottom: 7px;
+	margin: 0;
+}    
+.ui-header, .ui-title, .control .ui-btn {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}	
+.feed-icon {
+    margin:10px;
+    height:450px;
+    width:450px;
+    float:left;
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+.feed-icon h3,
+.feed-icon h4 {
+    background: #eee;
+    padding:5px;
+    margin: 0 auto;
+    text-align:center;
+}
