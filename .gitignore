@@ -1,2 +1,4 @@
 .htpasswd
+cmx.sqlite
 /var/
+/images/
