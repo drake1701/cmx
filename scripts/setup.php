@@ -8,7 +8,7 @@ $db = new PDO('sqlite:'.dirname(__FILE__).'/../cmx.sqlite');
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 $db->exec("DROP TABLE IF EXISTS comic;");
-$db->exec("CREATE TABLE 'comic' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'feed_id' INTEGER, 'permalink' TEXT, 'image' TEXT,'note' TEXT, 'title' TEXT, 'date' DATETIME, 'read' BOOLEAN DEFAULT 'false')");
+$db->exec("CREATE TABLE 'comic' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'feed_id' INTEGER, 'permalink' TEXT, 'image' TEXT,'note' TEXT, 'title' TEXT, 'date' DATETIME, 'read' BOOLEAN DEFAULT 0)");
 
 $db->exec("DROP TABLE IF EXISTS 'feed';");
 $db->exec("CREATE TABLE 'feed' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'url' TEXT, 'url_regex' TEXT, 'name' TEXT, 'regex' TEXT, 'note_regex' TEXT, 'permalink_regex' TEXT, 'comicid_regex' TEXT, 'date_regex' TEXT, 'title_regex' TEXT)");

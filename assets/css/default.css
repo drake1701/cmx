@@ -3,14 +3,16 @@
  * @address		www.drogers.net
  */
 
-body {
-    background-color:#555;
+.cmx-image img {
+    margin:10px auto;
 }
-.cmx-image {
-    margin:20px;
-	background-size: contain;
-	background-position: center center;
-	background-repeat: no-repeat;
+@media screen and (max-width:320px) {
+    .cmx-image img {
+        width:100%;
+    }
+}
+.page-cmx {
+    text-align: center;
 }
 .ui-footer {
 	background: none;
@@ -29,18 +31,21 @@ body {
 	user-select: none;
 }	
 .feed-icon {
-    margin:10px;
-    height:450px;
-    width:450px;
+    width:32%;
+    margin:1% 0 1% 1%;
+    height:400px;
     float:left;
 	background-size: cover;
 	background-position: center center;
 	background-repeat: no-repeat;
 }
-.feed-icon h3,
-.feed-icon h4 {
-    background: #eee;
-    padding:5px;
-    margin: 0 auto;
-    text-align:center;
+@media screen and (max-width:1000px) {
+    .feed-icon {
+        height:200px;
+    }
+}
+@media screen and (max-width:400px) {
+    .feed-icon {
+        height:100px;
+    }
 }

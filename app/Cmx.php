@@ -12,20 +12,23 @@ class Cmx_App
     public $baseUrl = "http://cmx.drogers.net/";
     protected $feeds;
     protected $unreadFeeds;
+    protected $comics = array();
     
     function __construct() {
         $this->db = new PDO('sqlite:'.$this->baseDir.'cmx.sqlite');
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
     
-    public function getFeed($id) {
+    /* Load specific feed by id */
+    public function getFeed($feedId) {
         $feedRequest = $this->db->prepare("SELECT * FROM `feed` WHERE id = ?;");
-        $feedRequest->execute(array($id));
+        $feedRequest->execute(array($feedId));
         
         $feed = $feedRequest->fetchObject();
         return $feed;
     }
     
+    /* Load all feeds */
     public function getFeeds() {
         if(empty($this->feeds)){
             $feedRequest = $this->db->prepare("SELECT * FROM `feed` ORDER BY `name` ASC;");
@@ -40,6 +43,22 @@ class Cmx_App
         return $this->feeds;
     }
     
+    /* Load unread comics from a feed */
+    public function getUnreadFeedComics($feedId) {
+        if(empty($this->comics[$feedId])){
+            $comicRequest = $this->db->prepare("SELECT * FROM `comic` WHERE `read` = 0 AND `feed_id` = ? ORDER BY `date` ASC;");
+            $comicRequest->execute(array($feedId));
+            
+            $comics = array();
+            while($row = $comicRequest->fetchObject()){
+                $comics[] = $row;
+            }
+            $this->comics[$feedId] = $comics;
+        }
+        return $this->comics[$feedId];
+    }    
+    
+    /* Load all feeds with unread posts */
     public function getUnreadFeeds() {
         if(empty($this->unreadFeeds)){
             $feedRequest = $this->db->prepare("SELECT f.*, c.image AS 'preview', count(*) AS 'count' FROM feed f JOIN comic c ON c.feed_id = f.id GROUP BY c.feed_id ORDER BY c.date DESC;");
@@ -54,7 +73,7 @@ class Cmx_App
         return $this->unreadFeeds;        
     }
     
-    
+    /* Add comic to feed */
     public function addComic($data) {
         $columns = array();
         $placeholders = array();
@@ -69,6 +88,7 @@ class Cmx_App
         $statement->execute($data);
     }
     
+    /* Load latest comic from feed site into db */
     public function fetchNew($force = false) {
         foreach($this->getFeeds() as $feed){
             echo "Checking feed '$feed->name'\n";
@@ -119,13 +139,15 @@ class Cmx_App
         }
     }
         
+    /* convert strings for filenames */
     public function underscore($string) {
         $string = strtolower($string);
         $string = preg_replace("#[^a-z0-9 ]#", "", $string);
         $string = str_replace(" ", "_", $string);
         return $string;
     }
-
+    
+    /* load external html page */
     public function getPage($url) {
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -137,6 +159,7 @@ class Cmx_App
         return $html;
     }
     
+    /* load external comic image */
     public function getImage($url, $path) {
         echo "get image $url\n";
         $destParts = pathinfo($path);
