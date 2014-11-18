@@ -9,4 +9,4 @@ require_once(dirname(__FILE__)."/../app/Cmx.php");
 
 $cmx = new Cmx_App();
 
-$cmx->fetchNew(empty($argv[2]));
+$cmx->fetchNewAll(isset($argv[2]));

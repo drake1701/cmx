@@ -50,7 +50,7 @@ $db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, permalink_regex, da
 		'property=\"og:title\".+?content=\"(.+?)\"'
 	);");
 $db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, permalink_regex, date_regex, title_regex) VALUES
-	('The Brads - a comic about web design',
+	('The Brads',
 		'http://bradcolbow.com/',
 		'src=\"([^\"]+?)\" class=\"retina\"',
 		'',
@@ -59,7 +59,7 @@ $db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, permalink_regex, da
 		'<img.+?class=\"retina\".+?alt=\"(.+?)\"'
 	);");
 $db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, permalink_regex, date_regex, title_regex) VALUES
-	('HijiNKS ENSUE - A Geek Webcomic',
+	('HijiNKS ENSUE',
 		'http://hijinksensue.com',
 		'id=\"comic\".+?src=\"(.+?)\"',
 		'id=\"comic\".+?alt=\"(.+?)\"',
@@ -77,7 +77,7 @@ $db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, permalink_regex, da
 		'<title>.+?- (.+?)</title>'
 	);");
 $db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, permalink_regex, date_regex, title_regex) VALUES
-	('Evil Inc - A daily comic about super-villains',
+	('Evil Inc',
 		'http://evil-inc.com',
 		'id=\"comic\".+?src=\"(.+?)\?.+?\"',
 		'',
@@ -121,116 +121,122 @@ $db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, permalink_regex, da
 		'<title>Dinosaur Comics - (.+?) - awesome fun times!</title>',
 		''
 	);");
-$db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, permalink_regex, date_regex, title_regex) VALUES
-	('QC RSS',
+$db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, comicid_regex, permalink_regex, date_regex, title_regex) VALUES
+	('QC',
 		'http://www.questionablecontent.net',
 		'>Random<.+?src=\"(.+?)\"',
 		'id=\"news\">(.+?)<center',
+		'>Random<.+?src=\"http://www.questionablecontent.net/comics/(.+?).png\"|http://www.questionablecontent.net/view.php?comic=\\1',
 		'',
-		'',
+		'id=\"news\">.+?<b>(.+?)</b>',
 		''
 	);");
-$db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, permalink_regex, date_regex, title_regex) VALUES
+$db->exec("INSERT INTO 'feed' (name, url, url_regex, regex, note_regex, permalink_regex, date_regex, title_regex) VALUES
 	('PANDALIKES',
-		'http://pandalikeseng.blogspot.com/',
+		'http://www.pandalikes.com/',
+		'<p>eng</p>.+?<p><a href=\"(.+?)\"',
+		'<div class=\"entry-attachment\">.+?<img src=\"(.+?)\"',
+		'<div class=\"entry-attachment\">.+?<img.+? title=\"(.+?)\"',
+		'<g:plusone.+?href=\"(.+?)\"',
 		'',
-		'',
-		'',
-		'',
-		''
+		'<div class=\"entry-attachment\">.+?<img.+? title=\"(.+?)\"'
 	);");
 $db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, permalink_regex, date_regex, title_regex) VALUES
 	('Tragedy Series',
 		'http://tragedyseries.tumblr.com/',
-		'',
-		'',
-		'',
-		'',
+		'<li class=\"posts\".+?img src=\"(.+?)\"',
+		'<p class=\"tags\">(.+?)</p>',
+		'<li class=\"posts\".+?a href=\"(.+?)\"',
+		'<p class=\"info\".+?<a.+?>Posted on (.+?)</a>',
 		''
 	);");
 $db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, permalink_regex, date_regex, title_regex) VALUES
 	('Hark, A Vagrant!',
-		'http://www.rsspect.com',
+		'http://harkavagrant.com/',
+		'class=\"rss-content\".+?<img src=\"(.+?)\"',
+		'div class=\"black11.+?class=\"rss-content\">(.+?)</span>',
+		'href=\"(.+?)\".+?buttonnext.png',
 		'',
-		'',
-		'',
-		'',
-		''
+		'class=\"rss-content\".+?<img.+?title=\"(.+?)\"'
 	);");
 $db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, permalink_regex, date_regex, title_regex) VALUES
 	('garfield minus garfield',
 		'http://garfieldminusgarfield.net/',
-		'',
-		'',
-		'',
-		'',
-		''
+		'<div class=\"photo\".+?img src=\"(.+?)\"',
+		'<p class=\"caption\">(.+?)</p>',
+		'<div class=\"photo\".+?a href=\"(.+?)\"',
+		'<a href=\"/day/.+?\">(.+?)</a>',
+		'<div class=\"photo\".+?a href=\"http://garfieldminusgarfield.net/post/\d*/(.+?)\"'
 	);");
 $db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, permalink_regex, date_regex, title_regex) VALUES
 	('Real Life Comics',
 		'http://reallifecomics.com',
+		'<div id=\"comic\".+?img src=\"(.+?)\"',
 		'',
-		'',
-		'',
-		'',
+		'class=\"twitter-share-button\" data-url=\"(.+?)\"',
+		'<div id=\"comic\".+?img.+?alt=\"(.+?)\"',
 		''
 	);");
 $db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, permalink_regex, date_regex, title_regex) VALUES
 	('Help Us Great Warrior!',
 		'http://helpusgreatwarrior.tumblr.com/',
-		'',
-		'',
-		'',
-		'',
+		'<div class=\"photo\".+?img src=\"(.+?)\"',
+		'<div class=\"caption\">(.+?)</div>',
+		'<div class=\"photo\".+?a href=\"(.+?)\"',
+		'<a title=\"link to this post\".+?>(.+?)</a>',
 		''
 	);");
-$db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, permalink_regex, date_regex, title_regex) VALUES
+$db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, comicid_regex, date_regex, title_regex) VALUES
 	('Sinfest',
-		'http://www.sinfest.net',
+		'http://www.sinfest.net/',
+		'<img src=\"(btphp/comics/.+?.gif)\"',
 		'',
-		'',
-		'',
-		'',
-		''
+		'<img src=\"btphp/comics/(.+?).gif\"|http://www.sinfest.net/view.php?date=\\1',
+		'<nobr>(.+?): </nobr>',
+		'<img src=\"btphp/comics/.+?alt=\"(.+?)\">'
 	);");
 $db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, permalink_regex, date_regex, title_regex) VALUES
 	('Basic Instructions',
-		'http://basicinstructions.net/basic-instructions/',
+		'http://basicinstructions.net/',
+		'class=\"body\".+?img src=\"/(.+?)\?',
 		'',
-		'',
-		'',
-		'',
+		'<a class=\"permalink\" href=\"/(.+?)\">',
+		'class=\"posted-on.+?<img.+?>(.+?)</span>',
 		''
 	);");
 $db->exec("INSERT INTO 'feed' ('url','regex','name','note_regex','permalink_regex','date_regex','title_regex') VALUES
-	('http://www.xkcd.com/','id=\"comic\".+?src=\"(.+?)\"','XKCD','id=\"comic\".+?title=\"(.+?)\"','Permanent link to this comic: (.+?)<',NULL,'<title>(.+?)</title>'
+	('http://www.xkcd.com/',
+	'id=\"comic\".+?src=\"(.+?)\"',
+	'XKCD',
+	'id=\"comic\".+?title=\"(.+?)\"',
+	'Permanent link to this comic: (.+?)<',NULL,'<title>(.+?)</title>'
 	);");
 $db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, permalink_regex, date_regex, title_regex) VALUES
 	('The Non-Adventures of Wonderella',
 		'http://nonadventures.com',
-		'',
-		'',
-		'',
-		'',
-		''
+		'id=\"comic\".+?img src=\"(.+?)\"',
+		'id=\"comic\".+?img.+?title=\"(.+?)\"',
+		'<h2>.+?<a href=\"(.+?)\" rel=\"bookmark\"',
+		'data-datetime=\"(.+?)T.+?\"',
+		'id=\"comic\".+?img.+?alt=\"(.+?)\"'
 	);");
 $db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, permalink_regex, date_regex, title_regex) VALUES
-	('Saturday Morning Breakfast Cereal (updated daily)',
+	('SMBC',
 		'http://www.smbc-comics.com',
-		'',
-		'',
-		'',
-		'',
+		'id=\"comicimage\".+?src=''(.+?)''',
+		'<p class=\"blogtext\">(.+?)</p>',
+		'data-url=\"(.+?)\"',
+		'<p class=\"date\">(.+?)</p>',
 		''
 	);");
 $db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, permalink_regex, date_regex, title_regex) VALUES
 	('Poorly Drawn Lines',
 		'http://poorlydrawnlines.com',
+		'<img.+?size-full.+?src=\"(.+?)\"',
 		'',
+		'http://reddit.com/submit\?url=(.+?)&',
 		'',
-		'',
-		'',
-		''
+		'http://reddit.com/submit\?url=.+?&amp;title=(.+?)\"'
 	);");
 
 

@@ -55,7 +55,7 @@
                 content = screen - header - footer - contentCurrent;
             $(".ui-content").height(content-10);
             if($(window).width() > 700) {
-                $('.cmx-image img').css('max-height', content-20);
+                $('.cmx-image img').css('max-width', $(window).width()*.7);
             } else {
                 $('.cmx-image img').css('width', $(window).width()-20);
             }
