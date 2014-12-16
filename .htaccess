@@ -12,8 +12,3 @@ Order deny,allow
 Deny from all
 Allow from 173.20.118.123
 Satisfy any
-
-## PHP includes
-php_value include_path "/var/www/development/cmx/"
-php_value auto_prepend_file includes/header.php
-php_value auto_append_file includes/footer.php

@@ -4,6 +4,7 @@
  * @address		www.drogers.net
  */
 ?>
+<?php require('includes/header.php'); ?>
 	<script>
 		$( document ).on( "pageinit", "[data-role='page'].page-cmx", function() {
 			var page = "#" + $( this ).attr( "id" ),
@@ -62,12 +63,38 @@
 		}
     </script>	
 <?php 
+if(!isset($_GET['feed']))
+    die('No feed id specified');
 $feedId = (int)$_GET['feed'];
-$comicId = (int)$_GET['comic'];
-$comics = $cmx->getUnreadFeedComics($feedId);
-$comic = $comics[$comicId];
+$comicId = isset($_GET['comic']) ? (int)$_GET['comic'] : 0;
+$comics = $cmx->getFeedComics($feedId);
+
+if($comicId == 0) {
+    $comic = current($comics);
+} else {
+    while($comic=current($comics))
+    {
+        if($comic->id == $comicId) 
+            break;
+        next($comics);
+    }
+    $next = next($comics);
+    prev($comics);
+    $prev = prev($comics);
+}
+
+if($next) {
+    $nextUrl = 'view.php?feed='.$feedId.'&comic='.$next->id;
+} else {
+    $nextUrl = $cmx->baseUrl;
+}
+if($prev) {
+    $prevUrl = 'view.php?feed='.$feedId.'&comic='.$prev->id;
+} else {
+    $prevUrl = $cmx->baseUrl;
+}
 ?>
-<div data-role="page" id="comic_<?php echo $comicId ?>" data-theme="b" class="page-cmx" data-dom-cache="true" <?php if(!empty($comics[$comicId+1])): ?> data-next="view.php?feed=<?php echo $feedId ?>&comic=<?php echo $comicId+1 ?>"<?php endif; ?><?php if(!empty($comics[$comicId-1])): ?> data-prev="view.php?feed=<?php echo $feedId ?>&comic=<?php echo $comicId-1 ?>"<?php endif; ?>>
+<div data-role="page" id="comic_<?php echo $comicId ?>" data-theme="b" class="page-cmx" data-dom-cache="true" data-next="<?php echo $nextUrl ?>" data-prev="<?php echo $prevUrl ?>">
 
     <div data-role="header" data-position="fixed" data-fullscreen="true" data-id="hdr" data-toggle="true" data-visible-on-page-show="false">
 		<h1><a href="<?php echo $comic->permalink ?>"><?php echo $comic->title ?></a></h1>
@@ -76,6 +103,7 @@ $comic = $comics[$comicId];
 
 	<div data-role="content" class="cmx-image">
     	<img src='<?php echo $comic->image ?>' />
+    	<p><?php echo date("l, M jS, Y", strtotime($comic->date)) ?></p>
     	<p><?php echo $comic->note ?></p>
 	</div><!-- /content -->
 
@@ -86,3 +114,5 @@ $comic = $comics[$comicId];
         </div>
     </div><!-- /footer -->
 </div><!-- /page -->
+<?php $cmx->markRead($comic->id); ?>
+<?php require('includes/footer.php'); ?>
