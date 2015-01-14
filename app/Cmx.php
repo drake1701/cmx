@@ -118,6 +118,7 @@ class Cmx_App
     public function markRead($comicId) {
         $sql = 'UPDATE comic SET read = 1 WHERE id = ?';
         $statement = $this->db->prepare($sql);
+        self::log("mark read $comicId");
         $statement->execute(array($comicId));
     }
     
@@ -204,7 +205,7 @@ class Cmx_App
             // handle internal urls
             if(preg_match('#http#s', $comic['permalink']) == false)
                 $comic['permalink'] = $feed->url . $comic['permalink'];
-            if($comic['prev'] && preg_match('#http#s', $comic['prev']) == false)
+            if(isset($comic['prev']) && preg_match('#http#s', $comic['prev']) == false)
                 $comic['prev'] = $feed->url . $comic['prev'];
             
             // use todays date if none found
@@ -239,7 +240,7 @@ class Cmx_App
     public function getPage($url, $cache = false) {
         self::log("get url $url");
         if($cache){
-            $filename = $this->baseDir."var/".$this->underscore($url).".html";
+            $filename = $this->baseDir."var/cache/".$this->underscore($url).".html";
             if(file_exists($filename)){
                 return file_get_contents($filename);
             }

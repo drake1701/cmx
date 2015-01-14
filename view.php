@@ -14,17 +14,16 @@
 				prev = $( this ).jqmData( "prev" );
 			
 			// Check if we did set the data-next attribute
-			console.log(next + " - " + prev);
 			if ( next ) {
 				// Prefetch the next page
 				$.mobile.loadPage( next );
 				// Navigate to next page on swipe left
 				$( document ).on( "swipeleft", page, function() {
-					$.mobile.changePage( next );
+					changePage( next );
 				});
 				// Navigate to next page when the "next" button is clicked
 				$( ".control .next", page ).on( "click", function() {
-					$.mobile.changePage( next );
+					changePage( next );
 				});
 			}
 			// Disable the "next" button if there is no next page
@@ -34,16 +33,19 @@
 			// The same for the previous page (we set data-dom-cache="true" so there is no need to prefetch)
 			if ( prev ) {
 				$( document ).on( "swiperight", page, function() {
-					$.mobile.changePage( prev, { reverse: true } );
+					changePage( prev, { reverse: true } );
 				});
 				$( ".control .prev", page ).on( "click", function() {
-					$.mobile.changePage( prev, { reverse: true } );
+					changePage( prev, { reverse: true } );
 				});
 			}
 			else {
 				$( ".control .prev", page ).addClass( "ui-disabled" );
 			}
 			fullHeightContent();
+		});
+		$(document).on("pageshow", function(prevPage){
+    		$.ajax(prevPage.currentTarget.URL.replace('view.php', 'markread.php'));
 		});
 		$(window).on("resize", fullHeightContent);
 		$(window).on("orientationchange", fullHeightContent);
@@ -60,6 +62,12 @@
             } else {
                 $('.cmx-image img').css('width', $(window).width()-20);
             }
+		}
+		function changePage(url, data){
+    		if(data == undefined) data = {};
+            if(url == '<?php echo $cmx->baseUrl ?>')
+                data.reloadPage = 1;
+    		$.mobile.changePage(url, data);
 		}
     </script>	
 <?php 
@@ -114,5 +122,4 @@ if($prev) {
         </div>
     </div><!-- /footer -->
 </div><!-- /page -->
-<?php $cmx->markRead($comic->id); ?>
 <?php require('includes/footer.php'); ?>
