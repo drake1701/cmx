@@ -18,7 +18,7 @@ $db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, permalink_regex, da
 		'http://www.penny-arcade.com/comic',
 		'id=\"comicFrame\".+?src=\"(.+?)\"',
 		'',
-		'<a href=\"([^\"]+?post/[/0-9]*[^\"]+?)\".+?Read News Post',
+		'property=\"og:url\" content=\"(.+?)\"',
 		'<a href=\".+?post/([/0-9]*).+?\".+?Read News Post',
 		'<title>.+?- (.+?)</title>',
 		'btn btnPrev\" href=\"(.+?)\"'
@@ -73,15 +73,15 @@ $db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, permalink_regex, da
 		'<h2 class=\"post-title\"><a.+?>(.+?)</a>',
 		'href=\"([^\"]+?)\" class=\"navi navi-prev-in\"'
 	);");
-$db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, permalink_regex, date_regex, title_regex, prev_regex) VALUES
+$db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, comicid_regex, date_regex, title_regex, prev_regex) VALUES
 	('Girls With Slingshots',
 		'http://www.girlswithslingshots.com/',
 		'id=\"comicbody\".+?src=\".+?\.\./(.+?)\"',
 		'id=\"comicbody\".+?title=\"(.+?)\"',
-		'id=\"newsheader\".+?href=\"(.+?)/comments/\"',
+		'id=\"comicbody\".+?src=\".+?GWS(\d*)|http://www.girlswithslingshots.com/comic/gws-\\1/',
 		'class=\"cc-publishtime\">posted (.+?) at',
 		'<title>.+?- (.+?)</title>',
-		''
+		'href=\"([^\"]+?)\" class=\"prev\"'
 	);");
 $db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, permalink_regex, date_regex, title_regex, prev_regex) VALUES
 	('Evil Inc',
@@ -89,19 +89,19 @@ $db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, permalink_regex, da
 		'id=\"comic\".+?src=\"(.+?)\?.+?\"',
 		'',
 		'td class=\"comic-nav\"><a href=\"([^\"]+?)/\#comments\"',
-		'class=\"post-date\">(.+?)</span>',
+		'id=\"comic\".+?src=\".+?(\d\d\d\d\d\d\d\d+?).+?\?.+?\"',
 		'class=\"post-title\">(.+?)</h2>',
-		''
+		'class=\"mininav-prev\".+?href=\"(.+?)\"'
 	);");
 $db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, permalink_regex, date_regex, title_regex, prev_regex) VALUES
 	('PvPonline',
-		'http://sorethumbs.keenspot.com',
-		'class=\"ksc\".+?src=\"(.+?)\"',
+		'http://pvponline.com/comic/',
+		'class=\"comic-art\".+?src=\"(.+?)\"',
 		'',
-		'rel=\"canonical\" href=\"(.+?)\" />',
-		'rel=\"canonical\" href=\"http://sorethumbs.keenspot.com/d/(.+?).html\" />',
-		'',
-		''
+		'http://www.facebook.com/sharer.php\?u=(.+?)\&',
+		'class=\"comic-date.+?>(.+?)</div>',
+		'<title>PVP - (.+?)</title>',
+		'href=\"/comic/([^\"]+?)\".+?Prev'
 	);");
 $db->exec("INSERT INTO 'feed' (name, url, regex, note_regex, permalink_regex, date_regex, title_regex, prev_regex) VALUES
 	('Marry Me',

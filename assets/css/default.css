@@ -4,15 +4,21 @@
  */
 
 .cmx-image img {
-    margin:10px auto;
+    margin:0 auto;
 }
 @media screen and (max-width:320px) {
     .cmx-image img {
         width:100%;
     }
 }
+.cmx-image {
+    padding:0;
+}
 .page-cmx {
     text-align: center;
+}
+.ui-header .ui-title {
+    padding: 7px 0;
 }
 .ui-footer {
 	background: none;
@@ -20,9 +26,12 @@
 }        
 .control.ui-btn-right {
 	top: auto;
-	bottom: 7px;
+	bottom: 0;
 	margin: 0;
-}    
+}
+.ui-header .ui-btn-left {
+    padding: 6px 12px;
+}
 .ui-header, .ui-title, .control .ui-btn {
 	-webkit-user-select: none;
 	-moz-user-select: none;

@@ -22,14 +22,18 @@ if(is_numeric($argv[2])){
     
     // get today's
     $feed = $cmx->getFeed($argv[1]);
-    $comic = $cmx->fetchNew($feed, 1);
+    $cmx->db->query('DELETE FROM comic WHERE feed_id = '.$feed->id);
+    
+    $comic = $cmx->fetchNew($feed);
     if(!$comic) die("no comic found\n");
     $i = 1;
     while($i++ < $argv[2]) {
-        if($comic->prev == '') die("no previous comic found\n");
+        if(!isset($comic->prev)) die("no previous comic found\n");
         $pageHtml = $cmx->getPage($comic->prev);
-        $data = $cmx->buildComic($feed, $pageHtml, 1);
-        $comic = $cmx->addComic($data);
+        $comic = $cmx->buildComic($feed, $pageHtml);
+        if($comic && empty($comic->id))
+            $comic = $cmx->addComic($comic);
+        usleep(500000);
     }
 } else {
     // archive until date

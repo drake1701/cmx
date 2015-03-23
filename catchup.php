@@ -1,7 +1,8 @@
 <?php
 /**
- * @author		Dennis Rogers
- * @address		www.drogers.net
+ * @author     Dennis Rogers <dennis@drogers.net>
+ * @address    www.drogers.net
+ * @date       3/23/15
  */
 ?>
 <?php require('includes/header.php'); ?>
@@ -57,7 +58,7 @@
                 content = screen - header - contentCurrent;
             $(".ui-content").height(content-10);
             if($(window).width() > 1024) {
-                $('.cmx-image img').css({'max-width': $(window).width()*.7, 'width':'auto'});
+                $('.cmx-image img').css({'max-width': $(window).width()*.8, 'width':'auto'});
             } else {
                 $('.cmx-image img').css({'width': $(window).width()-20, 'max-width':'auto'});
             }
@@ -68,45 +69,38 @@
                 data.reloadPage = 1;
     		$.mobile.changePage(url, data);
 		}
-    </script>	
-<?php 
-if(!isset($_GET['feed']))
-    die('No feed id specified');
-$feedId = (int)$_GET['feed'];
-$archive = isset($_GET['arch']) ? 1 : 0;
-$comicId = isset($_GET['comic']) ? (int)$_GET['comic'] : 0;
-$comics = $cmx->getFeedComics($feedId, $archive);
+    </script>
+<?php
+        
+$url = $_GET['url'] ? $_GET['url'] : file_get_contents('catchup');
+file_put_contents('catchup', $url);
+$parts = explode('/', $url);
+array_pop($parts);
+$id = array_pop($parts);
 
-if($comicId == 0) {
-    $comic = current($comics);
-} else {
-    while($comic=current($comics))
-    {
-        if($comic->id == $comicId) 
-            break;
-        next($comics);
-    }
-    $next = next($comics);
-    prev($comics);
-    $prev = prev($comics);
-}
+$imgReg = 'class="comicpane"><img src="(.+?)"';
+$nextReg = 'href="(.+?)" class="navi navi-next"';
+$prevReg = 'href="(.+?)" class="navi navi-prev"';
 
-if($next) {
-    $nextUrl = 'view.php?feed='.$feedId.'&comic='.$next->id;
-} else {
-    $nextUrl = $cmx->baseUrl;
-}
-if($prev) {
-    $prevUrl = 'view.php?feed='.$feedId.'&comic='.$prev->id;
-} else {
-    $prevUrl = $cmx->baseUrl;
-}
+$pageHtml = $cmx->getPage($url);
+
+preg_match("#$imgReg#", $pageHtml, $img);
+$img = $img[1];
+$parts = explode('-', basename($img));
+array_pop($parts);
+$date = implode('-', $parts);
+
+preg_match("#$nextReg#", $pageHtml, $next);
+$next = '?url=' . $next[1];
+
+preg_match("#$prevReg#", $pageHtml, $prev);
+$prev = '?url=' . $prev[1];
 ?>
-<div data-role="page" id="comic_<?php echo $comicId ?>" data-theme="b" class="page-cmx" data-dom-cache="true" data-next="<?php echo $nextUrl ?>" data-prev="<?php echo $prevUrl ?>">
+<div data-role="page" id="<?php echo $id ?>" data-theme="b" class="page-cmx" data-dom-cache="true" data-next="<?php echo $next ?>" data-prev="<?php echo $prev ?>">
 
     <div data-role="header" data-fullscreen="true" data-id="hdr" data-toggle="false">
-		<h1><a href="<?php echo $comic->permalink ?>"><?php echo $comic->title ?></a></h1>
-        <a href="<?php echo $cmx->baseUrl ?>" data-role="button">Back</a>
+        <a href="http://cmx.drogers.net/catchup.php" data-role="button">Last</a>
+		<h1><a href="<?php echo $url ?>">Permalink</a></h1>
 		<div data-role="controlgroup" class="control ui-btn-right" data-type="horizontal" data-mini="true">
         	<a href="#" class="prev" data-role="button" data-icon="arrow-l" data-iconpos="notext" data-theme="d">Previous</a>
         	<a href="#" class="next" data-role="button" data-icon="arrow-r" data-iconpos="notext" data-theme="d">Next</a>
@@ -114,10 +108,15 @@ if($prev) {
 	</div><!-- /header -->
 
 	<div data-role="content" class="cmx-image">
-    	<img src='<?php echo $comic->image ?>' />
-    	<p><?php echo date("l, M jS, Y", strtotime($comic->date)) ?></p>
-    	<p><?php echo $comic->note ?></p>
+    	<img src='<?php echo $img ?>' />
+    	<p><?php echo date("l, M jS, Y", strtotime($date)) ?></p>
 	</div><!-- /content -->
 	
 </div><!-- /page -->
 <?php require('includes/footer.php'); ?>
+
+
+
+
+
+

@@ -4,11 +4,11 @@
 ## 
 
 ## Auth
-AuthType Basic
-AuthName "Quit lookin' at me, swan!"
-AuthUserFile /var/www/development/cmx/.htpasswd
-Require valid-user
-Order deny,allow
-Deny from all
-Allow from 173.20.118.123
-Satisfy any
+# AuthType Basic
+# AuthName "Quit lookin' at me, swan!"
+# AuthUserFile /var/www/development/cmx/.htpasswd
+# Require valid-user
+# Order deny,allow
+# Deny from all
+# Allow from 173.20.73.213
+# Satisfy any
