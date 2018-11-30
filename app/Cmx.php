@@ -8,7 +8,7 @@ class Cmx_App
 {
 
     public $db;
-    public $baseDir = '/var/www/development/cmx/';
+    public $baseDir = '/var/www/cmx.drogers.net/';
     public $baseUrl = 'http://cmx.drogers.net/';
     public $columns = array('name', 'url', 'url_regex', 'regex', 'note_regex', 'permalink_regex', 'comicid_regex', 'date_regex', 'title_regex', 'prev_regex');
     protected $feeds;
@@ -191,6 +191,7 @@ class Cmx_App
             self::log("Checking feed '$feed->name' ($feed->url)");
             // get page html
             $pageHtml = $this->getPage($feed->url);
+            if(empty($pageHtml)) throw new Exception('No Page Content.');
             if($feed->url_regex){
                 preg_match('#'.$feed->url_regex.'#s', $pageHtml, $data);
                 self::log($data);
@@ -317,7 +318,7 @@ class Cmx_App
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_AUTOREFERER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'Googlebot/2.1 (+http://www.google.com/bot.html)');
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)');
         $html = curl_exec($ch);
         file_put_contents($filename, $html);
         return $html;
